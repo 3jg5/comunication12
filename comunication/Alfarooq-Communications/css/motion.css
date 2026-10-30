@@ -1,0 +1,260 @@
+/* ==========================================================================
+   motion.css — طبقة الحركة للصفحة الرئيسية فقط (GSAP + Lenis + نسخ vanilla
+   من مكوّنات React Bits: Blur Text / Light Rays / Star Border)
+   لا تغيّر أي نص ولا لون: كل الألوان مأخوذة من متغيرات css/style.css.
+   ========================================================================== */
+
+/* ---------------- Lenis (من js/vendor/lenis.css) ---------------- */
+/* القاعدة العامة في style.css تضع scroll-behavior: smooth على html،
+   وهذا يُعارض حركة Lenis ويحدث اهتزازًا، فتُلغى ما دام Lenis هو المحرّك */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ---------------- Blur Text (نسخة React Bits) ---------------- */
+/* الكلمات تُلفَّع بـ span من js/motion.js — الطول والموضع لا يتغيّران */
+.blur-word {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, filter, opacity;
+}
+
+/* ---------------- أظرف الكشف بالتمرير ---------------- */
+/* تُطبَّق فقط بعد ما يضيف motion.js صنف motion-ready، فتبقى الصفحة
+   مقروءة كاملة لو عطّل المتصفح JavaScript أو لم يجد المكتبات. */
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+
+.motion-ready [data-reveal-group] > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+/* ---------------- Light Rays (نسخة React Bits بألوان الموقع) ---------------- */
+.hero-rays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* مصدر الوهج أعلى البوابة */
+.hero-rays::before {
+  content: "";
+  position: absolute;
+  top: -34%;
+  right: 14%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(217, 185, 107, 0.34) 0%,
+      rgba(201, 164, 74, 0.14) 38%,
+      transparent 68%);
+  filter: blur(14px);
+  animation: rays-source 13s ease-in-out infinite alternate;
+}
+
+/* الضباب أسفل البوابة */
+.hero-rays::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -18% 0;
+  height: 52%;
+  background: radial-gradient(ellipse at 50% 100%,
+      rgba(36, 139, 108, 0.30), transparent 62%);
+  filter: blur(26px);
+}
+
+.hero-rays__beam {
+  position: absolute;
+  top: -22%;
+  width: 15vw;
+  max-width: 200px;
+  height: 138%;
+  transform-origin: 50% 0;
+  background: linear-gradient(to bottom,
+      rgba(248, 244, 234, 0.30) 0%,
+      rgba(201, 164, 74, 0.20) 42%,
+      transparent 82%);
+  filter: blur(20px);
+  opacity: 0.55;
+  animation: rays-sway 15s ease-in-out infinite alternate;
+}
+
+.hero-rays__beam:nth-child(1) {
+  right: 8%;
+  animation-duration: 17s;
+}
+
+.hero-rays__beam:nth-child(2) {
+  right: 30%;
+  opacity: 0.42;
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.hero-rays__beam:nth-child(3) {
+  right: 54%;
+  opacity: 0.34;
+  animation-delay: -8s;
+  animation-duration: 19s;
+}
+
+.hero-rays__beam:nth-child(4) {
+  right: 76%;
+  width: 11vw;
+  opacity: 0.26;
+  animation-delay: -2.5s;
+}
+
+@keyframes rays-sway {
+  0% {
+    transform: rotate(9deg) translate3d(0, 0, 0) scaleY(1);
+    opacity: 0.28;
+  }
+
+  100% {
+    transform: rotate(-7deg) translate3d(-2vw, 1.5vh, 0) scaleY(1.06);
+    opacity: 0.52;
+  }
+}
+
+@keyframes rays-source {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.78;
+  }
+
+  100% {
+    transform: translate3d(-2.5vw, 1.5vh, 0) scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* ---------------- Star Border (نسخة React Bits) ---------------- */
+@property --star-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.btn--star {
+  position: relative;
+  isolation: isolate;
+}
+
+/* الحلقة الدوّارة: قناع يستبقي حافة الزر فقط، فلا يمس اللون ولا النص */
+.btn--star::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--star-angle, 0deg),
+      transparent 0deg 190deg,
+      rgba(255, 255, 255, 0.85) 240deg,
+      var(--gold-400) 285deg,
+      transparent 330deg 360deg) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: star-spin 7s linear infinite;
+}
+
+/* النجوم الصغيرة على الحلقة */
+.btn--star::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: 3;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 12% 20%, var(--white) 0 1.2px, transparent 1.6px),
+    radial-gradient(circle at 62% 6%, var(--gold-400) 0 1.4px, transparent 1.8px),
+    radial-gradient(circle at 88% 74%, var(--white) 0 1.1px, transparent 1.5px) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: star-twinkle 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes star-spin {
+  to {
+    --star-angle: 360deg;
+  }
+}
+
+@keyframes star-twinkle {
+  0% {
+    opacity: 0.35;
+  }
+
+  100% {
+    opacity: 0.95;
+  }
+}
+
+/* المتصفحات التي لا تعرف @property: الحلقة تبقى ثابتة بدل أن تتعطّل */
+@supports not (background: conic-gradient(from 0deg, #000, #000)) {
+  .btn--star::after {
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent) border-box;
+    animation: none;
+  }
+}
+
+/* ---------------- احترام تقليل الحركة ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-rays,
+  .hero-rays__beam,
+  .hero-rays::before,
+  .hero-rays::after {
+    animation: none !important;
+    opacity: 0.34;
+  }
+
+  .btn--star::after,
+  .btn--star::before {
+    animation: none !important;
+  }
+
+  .motion-ready [data-reveal],
+  .motion-ready [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .blur-word {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

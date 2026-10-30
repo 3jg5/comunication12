@@ -1,0 +1,8 @@
+{
+  "name": "منصة مدرسة الفاروق للتواصل الرقمي",
+  "description": "نظام تواصل رقمي يربط أولياء الأمور والطلبة بإدارة المدرسة عبر طلبات آلية وإشعارات لحظية.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

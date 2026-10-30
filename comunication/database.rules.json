@@ -1,0 +1,63 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "refs": {
+      "$hash": {
+        ".read": true,
+        ".write": "!data.exists()",
+        "ticketId": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 64" },
+        "ref": { ".validate": "newData.isString() && newData.val().matches(/^TK-[0-9]{3,6}$/)" },
+        "portal": { ".validate": "newData.val() == 'parent' || newData.val() == 'student'" },
+        "at": { ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 40" },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "stats": {
+      ".read": true,
+      "$ticketId": {
+        ".write": true,
+        "ref": { ".validate": "newData.isString() && newData.val().matches(/^TK-[0-9]{3,6}$/)" },
+        "portal": { ".validate": "newData.val() == 'parent' || newData.val() == 'student'" },
+        "status": { ".validate": "newData.val() == 'open' || newData.val() == 'in-progress' || newData.val() == 'closed'" },
+        "priority": { ".validate": "newData.val() == 'normal' || newData.val() == 'urgent'" },
+        "at": { ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 40" },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "events": {
+      "$ticketId": {
+        ".read": true,
+        "$eventId": {
+          ".write": "newData.hasChildren(['at', 'type', 'ref', 'portal'])",
+          "at": { ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 40" },
+          "type": { ".validate": "newData.val() == 'reply' || newData.val() == 'status' || newData.val() == 'closed'" },
+          "ref": { ".validate": "newData.isString() && newData.val().matches(/^TK-[0-9]{3,6}$/)" },
+          "portal": { ".validate": "newData.val() == 'parent' || newData.val() == 'student'" },
+          "status": { ".validate": "newData.val() == 'open' || newData.val() == 'in-progress' || newData.val() == 'closed'" },
+          "category": { ".validate": "newData.isString() && newData.val().length <= 40" },
+          "by": { ".validate": "newData.isString() && newData.val().length <= 60" },
+          "$other": { ".validate": false }
+        }
+      }
+    },
+
+    "tokens": {
+      ".read": "auth != null && (auth.uid == 'kHn6Wym5a9gALKVcW0DDLzxcpTe2' || auth.uid == 'hDjZMNEnxIewxy0dQYUoOvp4iJl2')",
+      "$deviceId": {
+        ".write": "newData.hasChildren(['token'])",
+        "token": { ".validate": "newData.isString() && newData.val().length > 20 && newData.val().length <= 512" },
+        "deviceId": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "at": { ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 40" },
+        "agent": { ".validate": "newData.isString() && newData.val().length <= 160" },
+        "portal": { ".validate": "newData.val() == 'parent' || newData.val() == 'student' || newData.val() == 'admin'" },
+        "ref": { ".validate": "newData.val() == '' || newData.val().matches(/^TK-[0-9]{3,6}$/)" },
+        "ticketId": { ".validate": "newData.isString() && newData.val().length <= 64" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

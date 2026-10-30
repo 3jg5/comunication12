@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="قسم إدارة التواصل الرقمي في مدرسة الفاروق — استقبال الطلبات المفروزة والرد عليها وتحديث حالتها.">
+  <meta name="theme-color" content="#052f25">
+  <meta name="robots" content="noindex, nofollow">
+  <title>قسم الإدارة — التواصل الرقمي | مدرسة الفاروق</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="إدارة الفاروق">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body class="admin-body">
+  <a class="skip-link" href="#mainContent">انتقل إلى المحتوى الرئيسي</a>
+
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__state">
+        <span>مدرسة الفاروق <span aria-hidden="true">—</span> قسم إدارة التواصل الرقمي</span>
+      </div>
+      <div class="topbar__links">
+        <a href="index.html">العودة إلى المنصة</a>
+        <span class="topbar__sep" aria-hidden="true"></span>
+        <span class="mode-pill" data-mode-pill>نسخة تجريبية</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="mainContent" class="admin-page">
+    <!-- شاشة دخول الإدارة -->
+    <section class="admin-login" id="loginScreen" aria-labelledby="loginTitle">
+      <div class="login-wrap">
+        <img class="login-logo" src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق" width="84" height="84">
+        <span class="login-kicker">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          قسم الإدارة — بوابة مقيّدة
+        </span>
+
+        <div class="login-card">
+          <h1 id="loginTitle">دخول إدارة المدرسة</h1>
+          <p class="login-sub">أدخل البريد الإلكتروني وكلمة المرور الخاصة بالإدارة للوصول إلى صندوق الطلبات ولوحة الرد.</p>
+
+          <form id="loginForm" autocomplete="on">
+            <div class="field">
+              <label for="adminEmail">البريد الإلكتروني للإدارة</label>
+              <div class="password-wrap">
+                <svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg>
+                <input id="adminEmail" name="email" type="email" dir="ltr" placeholder="بريد الإدارة" autocomplete="username" inputmode="email" required>
+              </div>
+            </div>
+            <div class="field" style="margin-top:13px">
+              <label for="adminPass">كلمة المرور</label>
+              <div class="password-wrap">
+                <svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg>
+                <input id="adminPass" name="password" type="password" dir="ltr" placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+            </div>
+            <div class="login-error" id="loginError" role="alert">بيانات الدخول غير صحيحة. تحقق من البريد وكلمة المرور.</div>
+            <button class="btn btn--green btn--block" id="loginSubmitBtn" type="submit" style="margin-top:16px">
+              <svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg>
+              <span id="loginBtnLabel">دخول قسم الإدارة</span>
+            </button>
+          </form>
+
+          <p class="login-hint">
+            <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+            <span>الدخول عبر حساب Firebase Authentication الخاص بالإدارة فقط. إن ظهرت رسالة «صندوق الإدارة مقفول» فراجع README ← بند تفعيل التحقق الحقيقي.</span>
+          </p>
+        </div>
+
+        <div class="login-emblems" aria-label="الشعارات الرسمية">
+          <span class="login-emblem"><img src="assets/logos/ministry-logo.png" alt="شعار وزارة التعليم" width="56" height="70"></span>
+          <span class="login-emblem"><img src="assets/logos/oman-vision-2040.png" alt="شعار رؤية عُمان 2040" width="112" height="62"></span>
+        </div>
+
+        <a class="login-back" href="index.html">
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+          العودة إلى بوابات أولياء الأمور والطلبة
+        </a>
+      </div>
+    </section>
+
+    <!-- لوحة الإدارة -->
+    <div class="admin-shell" id="adminShell" style="display:none">
+      <header class="admin-top">
+        <div class="container admin-top__inner">
+          <div class="admin-brand">
+            <img src="assets/logos/farooq-logo.png" alt="" aria-hidden="true">
+            <div>
+              <strong>لوحة التواصل الرقمي</strong>
+              <small>مدرسة الفاروق — صندوق الطلبات والرد</small>
+            </div>
+          </div>
+          <div class="admin-top__actions">
+            <span class="admin-user" id="adminUser">
+              <svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg>
+              <span id="adminUserEmail" dir="ltr"></span>
+            </span>
+            <a class="btn" href="index.html" target="_blank" rel="noopener">
+              <svg class="icon" aria-hidden="true"><use href="#i-external"></use></svg>
+              <span>عرض البوابة</span>
+            </a>
+            <button class="btn" id="logoutBtn" type="button" aria-label="تسجيل الخروج">
+              <svg class="icon" aria-hidden="true"><use href="#i-logout"></use></svg>
+              <span>خروج</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="admin-main">
+        <div class="container">
+          <div class="welcome-band">
+            <img class="welcome-band__logo" src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق">
+            <div class="welcome-band__copy">
+              <small>أهلًا وسهلًا بك في</small>
+              <h1 id="welcomeName">لوحة إدارة التواصل الرقمي</h1>
+              <p><span id="welcomeRole">مدرسة الفاروق</span> <span aria-hidden="true">—</span> <span id="welcomeToday"></span></p>
+            </div>
+            <span class="pill pill--open" id="livePill">متصل</span>
+          </div>
+
+          <div class="notice" id="modeNotice">
+            <svg class="icon" aria-hidden="true"><use href="#i-cloud"></use></svg>
+            <span id="modeNoticeText">جارٍ فحص الاتصال بقاعدة الطلبات…</span>
+          </div>
+
+          <div class="stats-grid stats-grid--six" style="margin-bottom:22px">
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg></span>
+              <span class="stat-card__value" id="statNew">—</span>
+              <span class="stat-card__label">لم تُفتح بعد</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg></span>
+              <span class="stat-card__value" id="statOpen">—</span>
+              <span class="stat-card__label">مفتوحة — Open</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg></span>
+              <span class="stat-card__value" id="statProgress">—</span>
+              <span class="stat-card__label">قيد المعالجة — In Progress</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>
+              <span class="stat-card__value" id="statClosed">—</span>
+              <span class="stat-card__label">مغلقة — Closed</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg></span>
+              <span class="stat-card__value" id="statUrgent">—</span>
+              <span class="stat-card__label">طلبات عاجلة</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg></span>
+              <span class="stat-card__value" id="statTotal">—</span>
+              <span class="stat-card__label">إجمالي الطلبات</span>
+            </div>
+          </div>
+
+          <div class="portal-tabs" role="tablist" aria-label="أقسام لوحة الإدارة">
+            <button class="portal-tab is-active" type="button" role="tab" data-section="parent">
+              <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+              <span>قسم أولياء الأمور</span>
+              <em id="countParents">٠</em>
+            </button>
+            <button class="portal-tab" type="button" role="tab" data-section="student">
+              <svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg>
+              <span>قسم الطلبة</span>
+              <em id="countStudents">٠</em>
+            </button>
+          </div>
+
+          <div class="board">
+            <section class="board__list" aria-labelledby="inboxTitle">
+              <div class="board__list-head">
+                <h2 id="inboxTitle">صندوق الطلبات</h2>
+                <label class="search-field search-field--compact" style="max-width:none;margin-bottom:10px">
+                  <span class="sr-only">ابحث في الطلبات</span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+                  <input id="ticketSearch" type="search" placeholder="ابحث بالرقم، الاسم، الصف، الجوال أو الموضوع…" autocomplete="off">
+                </label>
+                <div class="tabs" role="tablist" aria-label="أقسام الطلبات" style="margin-bottom:10px">
+                  <button class="tab is-active" type="button" role="tab" data-filter="all">الكل</button>
+                  <button class="tab" type="button" role="tab" data-filter="new">لم تُفتح</button>
+                  <button class="tab" type="button" role="tab" data-filter="open">مفتوحة</button>
+                  <button class="tab" type="button" role="tab" data-filter="in-progress">قيد المعالجة</button>
+                  <button class="tab" type="button" role="tab" data-filter="closed">المقفلة</button>
+                  <button class="tab" type="button" role="tab" data-filter="pinned">المثبتة</button>
+                </div>
+                <div class="filter-row">
+                  <label class="field field--inline">
+                    <span>الصف</span>
+                    <select id="gradeFilter"><option value="">الكل</option></select>
+                  </label>
+                  <label class="field field--inline">
+                    <span>الشعبة</span>
+                    <select id="sectionFilter"><option value="">الكل</option></select>
+                  </label>
+                  <button class="btn btn--ghost btn--sm" type="button" id="clearFilters">تصفير الفلاتر</button>
+                </div>
+                <div class="chips" id="categoryChips"></div>
+              </div>
+              <div class="board__scroll" id="ticketList" role="list" aria-live="polite"></div>
+            </section>
+
+            <section class="board__thread" aria-labelledby="threadTitle">
+              <div class="thread__head">
+                <div class="thread__head-copy">
+                  <h2 id="threadTitle">اختر طلبًا من الصندوق</h2>
+                  <p id="threadSub">ستظهر هنا المحادثة كاملة مع بيانات المرسل والقسم المختص.</p>
+                </div>
+                <div class="thread__actions" id="threadActions" hidden>
+                  <span class="pill pill--open" id="threadPill">مفتوحة</span>
+                  <span class="pill pill--priority" id="threadPriority">عادية</span>
+                  <button class="btn btn--sm btn--ghost" type="button" id="btnPriority">
+                    <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+                    <span id="btnPriorityLabel">تحويل لعاجلة</span>
+                  </button>
+                  <button class="btn btn--sm btn--ghost" type="button" id="btnPin">
+                    <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+                    <span id="btnPinLabel">تثبيت</span>
+                  </button>
+                  <a class="btn btn--sm btn--whatsapp" type="button" id="btnWhatsapp" href="#" target="_blank" rel="noopener">
+                    <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+                    واتساب للضرورة
+                  </a>
+                  <a class="btn btn--sm btn--outline" id="btnCall" href="#">
+                    <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+                    اتصال
+                  </a>
+                  <button class="btn btn--sm btn--outline" type="button" id="btnInProgress">
+                    <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+                    بدء المعالجة
+                  </button>
+                  <button class="btn btn--sm btn--green" type="button" id="btnClose">
+                    <svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>
+                    إغلاق الطلب وحل الاستفسار
+                  </button>
+                  <button class="btn btn--sm btn--ghost" type="button" id="btnReopen" hidden>
+                    <svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>
+                    إعادة فتح
+                  </button>
+                </div>
+              </div>
+
+              <div class="thread-brief" id="threadBrief" hidden></div>
+
+              <div class="thread__body" id="threadBody">
+                <div class="state-card">
+                  <img class="state-card__logo" src="assets/logos/farooq-logo.png" alt="" aria-hidden="true">
+                  <h3>لا يوجد طلب محدد</h3>
+                  <p>اختر طلبًا من صندوق الطلبات لعرض المحادثة والرد على ولي الأمر أو الطالب.</p>
+                </div>
+              </div>
+
+              <form class="thread__reply" id="replyForm" hidden>
+                <label class="sr-only" for="replyText">نص الرد</label>
+                <textarea id="replyText" rows="2" maxlength="4000" placeholder="اكتب رد الإدارة هنا…"></textarea>
+                <div class="form-grid" style="gap:10px">
+                  <div class="field">
+                    <label for="assigneeField">توجيه الطلب إلى</label>
+                    <input id="assigneeField" type="text" placeholder="مثال: المرشد الأكاديمي" maxlength="80">
+                  </div>
+                  <div class="field">
+                    <label for="signatureField">اسم الموقّع في الرد</label>
+                    <input id="signatureField" type="text" maxlength="80">
+                  </div>
+                </div>
+                <div class="reply-row">
+                  <span class="reply-row__note">
+                    <svg class="icon" aria-hidden="true"><use href="#i-bell"></use></svg>
+                    سيصل إشعار فوري لصاحب الطلب عند الضغط على «إرسال الرد».
+                  </span>
+                  <button class="btn btn--green" type="submit">
+                    <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+                    إرسال الرد
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js" defer></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/icons.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/notify.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/pwa.js" defer></script>
+  <script src="js/admin.js" defer></script>
+</body>
+</html>

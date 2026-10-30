@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="بوابة التواصل الإلكتروني لمدرسة الفاروق — روبوت آلي يفتح طلب تواصل ويوجّه استفسارك إلى القسم المختص مع إشعارات لحظية.">
+  <meta name="theme-color" content="#052f25">
+  <title>بوابة التواصل | مدرسة الفاروق</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="تواصل الفاروق">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">انتقل إلى المحتوى الرئيسي</a>
+
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__state">
+        <span>مدرسة الفاروق <span aria-hidden="true">—</span> بوابة التواصل الإلكتروني</span>
+      </div>
+      <div class="topbar__links">
+        <a href="index.html">الرئيسية</a>
+        <span class="topbar__sep" aria-hidden="true"></span>
+        <a href="admin.html">دخول الإدارة</a>
+        <span class="mode-pill" data-mode-pill>نسخة تجريبية</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="منصة التواصل الرقمي لمدرسة الفاروق">
+        <img class="brand__logo" src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق" width="50" height="50">
+        <span class="brand__text">
+          <strong>مدرسة الفاروق</strong>
+          <small>منصة التواصل الرقمي</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي">
+        <a href="index.html">الرئيسية</a>
+        <a href="index.html#portals">البوابات</a>
+        <a href="chat.html" class="is-active" aria-current="page">بوابة التواصل</a>
+        <a href="admin.html">قسم الإدارة</a>
+      </nav>
+
+      <a class="btn btn--ghost header__cta" href="index.html#track">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        متابعة طلب
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="فتح قائمة التنقل">
+        <svg class="icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="page-hero" aria-labelledby="chatHeroTitle">
+      <div class="container page-hero__inner">
+        <div class="breadcrumb">
+          <a href="index.html">الرئيسية</a>
+          <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"></use></svg>
+          <span id="heroPortal">بوابة التواصل</span>
+        </div>
+        <h1 id="chatHeroTitle">تواصل مع إدارة مدرسة الفاروق</h1>
+        <p id="chatHeroDesc">
+          روبوت التواصل يستقبلك، يفتح لك طلب برقم مرجعي، ويوجّه استفسارك إلى القسم المختص.
+          ستصلك إشعارات لحظية عند كل رد من الإدارة.
+        </p>
+        <div class="page-hero__stats">
+          <span class="hero-stat">
+            <span class="sync-dot" aria-hidden="true"></span>
+            <span id="commStatusText">جارٍ فحص الاتصال…</span>
+          </span>
+          <span class="hero-stat">
+            <svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg>
+            طلب برقم مرجعي لكل استفسار
+          </span>
+          <span class="hero-stat">
+            <svg class="icon" aria-hidden="true"><use href="#i-bell"></use></svg>
+            إشعار فوري عند الرد
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="data-alert" id="chatAlert" role="alert">
+          <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+          <span id="chatAlertText">تعذر الاتصال بالسحابة.</span>
+        </div>
+
+        <!-- بوابة التعرف -->
+        <div class="gate-wrap" id="gateScreen">
+          <div class="gate-card">
+            <span class="section__kicker">
+              <svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg>
+              بوابة الدخول
+            </span>
+            <h2 id="gateTitle">من يتحدث مع إدارة المدرسة؟</h2>
+            <p id="gateDesc">اختر نوع البوابة وأدخل بياناتك، ويطلب النظام رقم الجوال لإتمام فتح الطلب وإشعارك فور الرد.</p>
+
+            <div class="gate-tabs" role="tablist" aria-label="نوع البوابة">
+              <button class="gate-tab is-active" type="button" role="tab" aria-selected="true" data-portal="parent">
+                <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+                <span>
+                  <strong>ولي أمر</strong>
+                  <small>متابعة الأبناء والطلبات</small>
+                </span>
+              </button>
+              <button class="gate-tab" type="button" role="tab" aria-selected="false" data-portal="student">
+                <svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg>
+                <span>
+                  <strong>طالب — الصفوف ١٠ إلى ١٢</strong>
+                  <small>صفك ← شعبةك ← اسمك</small>
+                </span>
+              </button>
+            </div>
+
+            <p class="gate-note" id="gateNote">
+              <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+              <span>الصف والشعبة مطلوبان في بوابة الطالب، واختياريان في بوابة ولي الأمر: العاشر ٧ شُّعب، الحادي عشر ١١ شعبة، الثاني عشر ١٢ شعبة.</span>
+            </p>
+
+            <form id="gateForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="guestName" id="guestNameLabel">الاسم الكامل</label>
+                  <input id="guestName" name="name" type="text" list="nameSuggestions" placeholder="مثال: سالم بن علي الحارثي" required maxlength="120" autocomplete="off">
+                  <datalist id="nameSuggestions"></datalist>
+                </div>
+                <div class="field" id="studentNameField">
+                  <label for="guestStudent" id="studentNameLabel">اسم الطالب</label>
+                  <input id="guestStudent" name="student" type="text" list="studentSuggestions" placeholder="اسم الابن" maxlength="120" autocomplete="off">
+                  <datalist id="studentSuggestions"></datalist>
+                </div>
+                <div class="field">
+                  <label for="guestGrade" id="gradeLabel">الصف (اختياري)</label>
+                  <select id="guestGrade" name="grade">
+                    <option value="">بدون تحديد صف</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="guestSection" id="sectionLabel">الشعبة (اختياري)</label>
+                  <select id="guestSection" name="section" disabled>
+                    <option value="">اختر الصف أولًا</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="guestPhone">رقم الجوال <small class="req">مطلوب</small></label>
+                  <input id="guestPhone" name="phone" type="tel" dir="ltr" placeholder="+968 9XXXXXXX" required maxlength="30" autocomplete="tel">
+                </div>
+                <div class="field">
+                  <label for="guestPriority">درجة الأهمية</label>
+                  <select id="guestPriority" name="priority">
+                    <option value="normal">عادية</option>
+                    <option value="urgent">عاجلة — ردّ سريع</option>
+                  </select>
+                </div>
+                <div class="field field--full">
+                  <label for="guestEmail">البريد الإلكتروني (اختياري)</label>
+                  <input id="guestEmail" name="email" type="email" dir="ltr" placeholder="name@example.com" maxlength="160">
+                </div>
+              </div>
+
+              <div class="children-box" id="childrenBox" hidden>
+                <div class="children-box__head">
+                  <strong>أبناؤك في المدرسة</strong>
+                  <button class="btn btn--outline btn--sm" type="button" id="addChildBtn">
+                    <svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>
+                    إضافة ابن
+                  </button>
+                </div>
+                <p class="children-box__note">اختر الابن المعني من أعلى المحادثة قبل الإرسال، ليُوجَّه الطلب إلى مشرف جناح صفه.</p>
+                <div class="children-rows" id="childrenRows"></div>
+              </div>
+
+              <label class="checkbox" style="margin-top:14px">
+                <input type="checkbox" id="notifyConsent">
+                <span>أوافق على استلام إشعارات فورية عند رد الإدارة على طلبي.</span>
+              </label>
+
+              <div class="login-error" id="gateError" role="alert">يرجى إدخال الاسم الكامل ورقم جوال صحيح للمتابعة.</div>
+
+              <button class="btn btn--green btn--block" type="submit" style="margin-top:18px">
+                <svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>
+                بدء المحادثة مع الروبوت
+              </button>
+            </form>
+          </div>
+
+          <aside class="chat-side">
+            <div class="side-card side-card--green">
+              <div class="side-card__inner">
+                <h3>
+                  <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+                  كيف يعمل النظام؟
+                </h3>
+                <p>
+                  بعد أول رسالة يرحب بك الروبوت الآلي ويسجّل <strong>طلب تواصل</strong>، ثم تختار موضوع المحادثة برقم الخيار
+                  ليُحوَّل استفسارك إلى القسم المختص مع رقم مرجعي وأولوية وحالة واضحة.
+                </p>
+                <span class="drive-note">
+                  <svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>لا تُحذف المحادثة حتى بعد إغلاق الطلب</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="side-card emergency-card">
+              <h3>
+                <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+                حالة طارئة؟
+              </h3>
+              <p style="color:var(--muted);font-size:.8rem;line-height:1.95;margin:0 0 12px">
+                للضرورة القصوى تواصل مباشرة مع <strong id="emergencyName">غرفة عمليات المدرسة</strong> عبر واتساب أو الاتصال الصوتي.
+              </p>
+              <div class="contact-row">
+                <a class="btn btn--whatsapp btn--sm" id="emergencyWhatsapp" href="#" target="_blank" rel="noopener">
+                  <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+                  واتساب طارئ
+                </a>
+                <a class="btn btn--outline btn--sm" id="emergencyCall" href="#">
+                  <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+                  اتصال
+                </a>
+              </div>
+            </div>
+
+            <div class="side-card">
+              <h3 id="gateSectionsTitle">
+                <svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg>
+                خدمات بوابة ولي الأمر
+              </h3>
+              <div class="section-picks" id="gateSections" role="group" aria-label="اختيار الخدمة"></div>
+              <p class="section-picks__note">اختر خدمة لتفتح المحادثة على القسم المختص مباشرة.</p>
+            </div>
+
+            <div class="side-card">
+              <h3>
+                <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+                لديك طلب سابق؟
+              </h3>
+              <p style="color:var(--muted);font-size:.82rem;line-height:1.95">
+                تابعه برقمه المرجعي مثل <strong>#TK-1045</strong> من صفحة الرئيسية، أو أدخل الرقم مع رقم الجوال المسجّل لديك لتكملة نفس المحادثة.
+              </p>
+              <form id="resumeForm">
+                <div class="field">
+                  <label for="resumeRef">رقم الطلب</label>
+                  <input id="resumeRef" name="ref" type="text" placeholder="TK-1045" autocomplete="off" maxlength="20">
+                </div>
+                <div class="field">
+                  <label for="resumeContact">رقم الجوال المسجّل</label>
+                  <input id="resumeContact" name="contact" type="tel" placeholder="9689XXXXXXX" autocomplete="off" maxlength="20">
+                </div>
+                <button class="btn btn--outline btn--sm btn--block" type="submit" style="margin-top:10px">
+                  فتح الطلب
+                </button>
+              </form>
+            </div>
+          </aside>
+        </div>
+
+        <!-- غرفة المحادثة -->
+        <div class="chat-shell" id="chatScreen" hidden>
+          <aside class="chat-side">
+            <div class="ticket-card">
+              <div class="ticket-card__ref">
+                <strong id="ticketRef">—</strong>
+                <span class="pill pill--open" id="ticketPill">مفتوحة</span>
+              </div>
+              <div class="kv"><span>البوابة</span><strong id="ticketPortal">ولي أمر</strong></div>
+              <div class="kv"><span>القسم</span><strong id="ticketDept">بانتظار اختيارك</strong></div>
+              <div class="kv"><span>الصف والشعبة</span><strong id="ticketClass">—</strong></div>
+              <div class="kv"><span>الأولوية</span><strong id="ticketPriority">عادية</strong></div>
+              <div class="kv"><span>الحالة</span><strong id="ticketState">جديدة - Open</strong></div>
+              <div class="kv"><span>التاريخ</span><strong id="ticketDate">—</strong></div>
+              <div class="kv"><span>آخر رد</span><strong id="ticketLast">—</strong></div>
+            </div>
+
+            <div class="notify-ask" id="notifyAsk">
+              <span>
+                <svg class="icon" aria-hidden="true"><use href="#i-bell"></use></svg>
+                فعّل الإشعارات لتصلك رسالة فور رد الإدارة على طلبك.
+              </span>
+              <button class="btn btn--sm btn--green" type="button" id="notifyBtn">تفعيل</button>
+            </div>
+
+            <div class="side-card">
+              <h3>
+                <svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg>
+                بياناتك
+              </h3>
+              <div class="kv"><span>الاسم</span><strong id="whoName">—</strong></div>
+              <div class="kv"><span>البوابة</span><strong id="whoPortal">—</strong></div>
+              <div class="kv"><span>الطالب المعني</span><strong id="whoStudent">—</strong></div>
+              <div class="kv"><span>الصف</span><strong id="whoGrade">—</strong></div>
+              <div class="kv"><span>الشعبة</span><strong id="whoSection">—</strong></div>
+              <div class="kv"><span>الجوال</span><strong id="whoPhone" dir="ltr">—</strong></div>
+              <button class="btn btn--ghost btn--sm btn--block" type="button" id="newTicketBtn" style="margin-top:12px">
+                <svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>
+                طلب جديد
+              </button>
+            </div>
+
+            <div class="side-card emergency-card">
+              <h3>
+                <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+                للضرورة القصوى
+              </h3>
+              <div class="contact-row">
+                <a class="btn btn--whatsapp btn--sm" id="chatEmergencyWhatsapp" href="#" target="_blank" rel="noopener">
+                  <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+                  واتساب الإدارة
+                </a>
+                <a class="btn btn--outline btn--sm" id="chatEmergencyCall" href="#">
+                  <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+                  اتصال
+                </a>
+              </div>
+            </div>
+          </aside>
+
+          <div class="chat-panel">
+            <div class="chat-head">
+              <span class="chat-head__avatar"><svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg></span>
+              <div class="chat-head__copy">
+                <strong>روبوت تواصل مدرسة الفاروق</strong>
+                <span id="chatHeadSub">خدمة الرد الآلي وتوجيه الطلبات — على مدار الساعة</span>
+              </div>
+              <div class="child-switch" id="childSwitchBox" hidden>
+                <label for="childSwitch">
+                  <svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg>
+                  <span>الطالب المعني</span>
+                </label>
+                <select id="childSwitch"></select>
+              </div>
+              <span class="badge" id="chatSyncBadge">
+                <span class="sync-dot" aria-hidden="true"></span>
+                متصل
+              </span>
+            </div>
+
+            <div class="chat-body" id="chatMessages" role="log" aria-live="polite" aria-label="سجل المحادثة"></div>
+
+            <div class="quick-chips" id="quickChips" role="group" aria-label="أقسام الخدمة"></div>
+
+            <form class="chat-compose" id="composer">
+              <label class="sr-only" for="composerInput">اكتب رسالتك</label>
+              <textarea id="composerInput" rows="1" placeholder="اكتب رسالتك هنا…" maxlength="4000"></textarea>
+              <button class="send-btn" type="submit" id="sendBtn">
+                <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+                إرسال
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> مدرسة الفاروق — منصة التواصل الرقمي.</span>
+        <span class="mode-pill" data-mode-pill>نسخة تجريبية</span>
+        <span>وزارة التعليم — سلطنة عُمان — رؤية عُمان 2040</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js" defer></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/icons.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/notify.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/pwa.js" defer></script>
+  <script src="js/chat.js" defer></script>
+</body>
+</html>

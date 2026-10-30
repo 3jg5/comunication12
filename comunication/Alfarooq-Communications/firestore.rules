@@ -1,0 +1,175 @@
+rules_version = '2';
+
+/* قواعد أمان Firestore — منصة التواصل الرقمي لمدرسة الفاروق
+   انشرها بـ: firebase deploy --only firestore:rules   (أو الصقها في الكونسول ← Rules)
+
+   نموذج الحماية المستخدم (مفتقر إلى Cloud Functions على خطة Spark):
+   • معرّف الوثيقة = صلاحية الوصول. صاحب الطلب يفتح طلبه الوحيد بمعرّف مستنده،
+     ولا أحد يقرأ صندوق الطلبات الكامل عدا حساب الإدارة المسجّل في Firebase Auth.
+   • المتابعة برقم الطلب تمرّ عبر Realtime Database بمفتاح (رقم الطلب + الجوال).
+   • الزائر ينشئ طلب مفتوحة عادية فقط، ولا يستطيع في تحديث لاحق إلا إلحاق
+     رسالة جديدة: لا حذف ولا تعديل ولا انتحال ردّ من الإدارة.
+   • عدّاد الأرقام المرجعية يزيد بواحدة فقط في كل عملية، فلا يستطيع أي زائر
+     تضخيمه لإيقاف إنشاء الطلبات. */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* حسابان مصرّح لهما: مدير المدرسة، وحساب عام بدون اسم.
+       أي حساب آخر — بما فيه الزائر غير المسجّل — لا يملك سرد الطلبات. */
+    function isEditor() {
+      return request.auth != null
+        && (request.auth.uid == "kHn6Wym5a9gALKVcW0DDLzxcpTe2"
+          || request.auth.uid == "hDjZMNEnxIewxy0dQYUoOvp4iJl2");
+    }
+
+    function guest() {
+      return request.auth == null;
+    }
+
+    function ticketFields() {
+      return ['ref', 'portal', 'requester', 'category', 'subject', 'status', 'priority',
+        'pinned', 'readAt', 'log', 'messages', 'assignee', 'lastAdminReplyAt',
+        'lastUserMessageAt', 'createdAt', 'updatedAt', 'closedAt'];
+    }
+
+    function conversationFields() {
+      return ['messages', 'updatedAt', 'readAt', 'lastUserMessageAt'];
+    }
+
+    function requesterFields() {
+      return ['name', 'relation', 'student', 'grade', 'gradeCode', 'section', 'phone', 'email'];
+    }
+
+    /* ختم زمني نصي بصيغة ISO — القيمة الفارغة مسموحة للحقول الاختيارية */
+    function isStamp(value) {
+      return value is string && value.size() <= 40;
+    }
+
+    function isTime(value) {
+      return value is string && value.size() >= 8 && value.size() <= 40;
+    }
+
+    function validMessage(m) {
+      return m is map
+        && m.keys().hasOnly(['id', 'from', 'author', 'text', 'at'])
+        && m.id is string && m.id.size() > 0 && m.id.size() <= 40
+        && m.from in ['user', 'bot', 'admin']
+        && m.author is string && m.author.size() <= 120
+        && m.text is string && m.text.size() > 0 && m.text.size() <= 4000
+        && isTime(m.at);
+    }
+
+    function validLogEntry(e) {
+      return e is map
+        && e.keys().hasOnly(['at', 'author', 'text'])
+        && e.author is string && e.author.size() <= 120
+        && e.text is string && e.text.size() <= 400
+        && isTime(e.at);
+    }
+
+    function validRequester(r) {
+      return r is map
+        && r.keys().hasOnly(requesterFields())
+        && r.keys().hasAll(['name', 'phone'])
+        && r.name is string && r.name.size() > 0 && r.name.size() <= 120
+        && r.phone is string && r.phone.size() >= 8 && r.phone.size() <= 30
+        && r.relation is string && r.relation.size() <= 40
+        && r.student is string && r.student.size() <= 120
+        && r.grade is string && r.grade.size() <= 60
+        && r.gradeCode is string && r.gradeCode.size() <= 10
+        && r.section is string && r.section.size() <= 20
+        && r.email is string && r.email.size() <= 160;
+    }
+
+    function validTicket(t) {
+      return t.keys().hasOnly(ticketFields())
+        && t.ref.matches('^TK-[0-9]{3,6}$')
+        && t.portal in ['parent', 'student']
+        && t.status in ['open', 'in-progress', 'closed']
+        && t.priority in ['normal', 'urgent']
+        && t.category in ['academic', 'absence', 'counselor', 'admin', 'technical',
+                          'exit-permit', 'activities', 'schedule']
+        && t.pinned is bool
+        && validRequester(t.requester)
+        && t.subject is string && t.subject.size() <= 200
+        && t.messages is list && t.messages.size() <= 400 && t.messages.all(m, validMessage(m))
+        && t.log is list && t.log.size() <= 200 && t.log.all(e, validLogEntry(e))
+        && isTime(t.createdAt) && isTime(t.updatedAt)
+        && isStamp(t.readAt)
+        && (!('assignee' in t) || (t.assignee is string && t.assignee.size() <= 80))
+        && (!('lastAdminReplyAt' in t) || isStamp(t.lastAdminReplyAt))
+        && (!('lastUserMessageAt' in t) || isStamp(t.lastUserMessageAt))
+        && (!('closedAt' in t) || t.closedAt == null || isStamp(t.closedAt));
+    }
+
+    /* طلب جديد يفتحه زائر: حالته مفتوحة، غير مثبّت، بلا حقول إدارة،
+       ولا تحتوي أي رسالة تنتحل صفة الإدارة. */
+    function guestCreate(t) {
+      return t.status == 'open'
+        && t.pinned == false
+        && t.readAt == ''
+        && !('closedAt' in t)
+        && !('lastAdminReplyAt' in t)
+        && t.messages.size() <= 40
+        && t.log.size() <= 5
+        && t.messages.all(m, m.from != 'admin')
+        && validTicket(t);
+    }
+
+    /* الرسائل إلحاقية فقط: عدد أكبر بواحدة، وكل رسالة قديمة ما زالت موجودة،
+       وعدد رسائل الإدارة لم يزد. */
+    function appendOnlyMessages() {
+      var old = resource.data.messages;
+      var next = request.resource.data.messages;
+      return next.size() == old.size() + 1
+        && old.all(m, next.contains(m))
+        && next.filter(m, m.from == 'admin').size() == old.filter(m, m.from == 'admin').size();
+    }
+
+    /* ثوابت الطلب: لا تتغير بعد الإنشاء */
+    function immutableHeld() {
+      return request.resource.data.ref == resource.data.ref
+        && request.resource.data.portal == resource.data.portal
+        && request.resource.data.requester == resource.data.requester
+        && request.resource.data.createdAt == resource.data.createdAt;
+    }
+
+    match /tickets/{ticketId} {
+      /* الفتح بمعرّف الوثيقة (يملكه صاحب الطلب في جلسته المحلية) */
+      allow get: if isEditor() || guest();
+
+      /* سرد الصندوق كاملًا مقصور على حساب الإدارة */
+      allow list: if isEditor();
+
+      allow create: if (isEditor() && validTicket(request.resource.data))
+        || (guest() && guestCreate(request.resource.data));
+
+      /* الزائر يضيف رسائله فقط — الحالة والأولوية والتثبيت والسجل بيد الإدارة */
+      allow update: if (isEditor() && validTicket(request.resource.data))
+        || (guest() && immutableHeld()
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(conversationFields())
+            && appendOnlyMessages()
+            && validTicket(request.resource.data));
+
+      /* الحذف يدوي من الإدارة فقط */
+      allow delete: if isEditor();
+    }
+
+    /* عدّاد الأرقام المرجعية (TK-1045 …) — زيادة واحدة فقط في كل عملية،
+       فلا يستطيع أي زائر تضخيمه حتى تتعطل صيغة الرقم المرجعي. */
+    match /counters/{counterId} {
+      allow read: if true;
+      allow create: if counterId == 'tickets'
+        && request.resource.data.keys().hasOnly(['next'])
+        && request.resource.data.next is int
+        && request.resource.data.next > 1000
+        && request.resource.data.next < 2000;
+      allow update: if counterId == 'tickets'
+        && request.resource.data.keys().hasOnly(['next'])
+        && request.resource.data.next is int
+        && request.resource.data.next == resource.data.next + 1;
+      allow delete: if isEditor();
+    }
+  }
+}

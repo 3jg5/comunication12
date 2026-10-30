@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="منصة مدرسة الفاروق للتواصل الرقمي — نظام تواصل رقمي يربط أولياء الأمور والطلبة بإدارة المدرسة عبر طلبات آلية وإشعارات لحظية.">
+  <meta name="theme-color" content="#052f25">
+  <title>منصة التواصل الرقمي | مدرسة الفاروق</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="تواصل الفاروق">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">انتقل إلى المحتوى الرئيسي</a>
+
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__state">
+        <span>سلطنة عُمان <span aria-hidden="true">—</span> وزارة التعليم</span>
+      </div>
+      <div class="topbar__links">
+        <a class="topbar__optional" href="https://www.moe.gov.om/" target="_blank" rel="noopener">بوابة الوزارة</a>
+        <a class="topbar__optional" href="https://www.vision2040.gov.om/" target="_blank" rel="noopener">رؤية عُمان 2040</a>
+        <span class="topbar__sep" aria-hidden="true"></span>
+        <a href="admin.html">دخول الإدارة</a>
+        <span class="mode-pill" data-mode-pill>نسخة تجريبية</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="منصة التواصل الرقمي لمدرسة الفاروق">
+        <img class="brand__logo" src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق" width="50" height="50">
+        <span class="brand__text">
+          <strong>مدرسة الفاروق</strong>
+          <small>منصة التواصل الرقمي</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي">
+        <a href="index.html" class="is-active" aria-current="page">الرئيسية</a>
+        <a href="#portals">البوابات</a>
+        <a href="#how">كيف يعمل النظام</a>
+        <a href="#track">متابعة طلب</a>
+        <a href="admin.html">قسم الإدارة</a>
+      </nav>
+
+      <a class="btn btn--green header__cta" href="chat.html">
+        <svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>
+        بدء محادثة
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="فتح قائمة التنقل">
+        <svg class="icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="masthead" aria-labelledby="heroTitle">
+      <div class="hero-rays" aria-hidden="true">
+        <span class="hero-rays__beam"></span>
+        <span class="hero-rays__beam"></span>
+        <span class="hero-rays__beam"></span>
+        <span class="hero-rays__beam"></span>
+      </div>
+      <div class="container masthead__inner">
+        <span class="eyebrow">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          البوابة الرسمية للتواصل المدرسي
+        </span>
+        <h1 id="heroTitle">منصة مدرسة الفاروق <span class="accent">للتواصل الرقمي</span></h1>
+        <p class="masthead__lead">
+          نظام تواصل رقمي واحد يربط أولياء الأمور والطلبة بإدارة المدرسة،
+          عبر طلبات تُفرز آليًا إلى القسم المختص وإشعارات لحظية عند كل رد.
+        </p>
+
+        <div class="emblems" aria-label="الشعارات الرسمية">
+          <div class="emblem">
+            <span class="emblem__logo">
+              <img src="assets/logos/ministry-logo.png" alt="شعار وزارة التعليم" width="84" height="104">
+            </span>
+            <span class="emblem__name">وزارة التعليم</span>
+            <span class="emblem__sub">سلطنة عُمان</span>
+          </div>
+
+          <div class="emblem emblem--school">
+            <span class="emblem__logo">
+              <img src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق" width="118" height="118">
+            </span>
+            <span class="emblem__name">مدرسة الفاروق</span>
+            <span class="emblem__sub">للتعليم الأساسي للبنين — الخابورة</span>
+          </div>
+
+          <div class="emblem emblem--vision">
+            <span class="emblem__logo">
+              <img src="assets/logos/oman-vision-2040.png" alt="شعار رؤية عُمان 2040" width="164" height="92">
+            </span>
+            <span class="emblem__name">رؤية عُمان 2040</span>
+            <span class="emblem__sub">التعليم الرقمي ركيزة المستقبل</span>
+          </div>
+        </div>
+
+        <div class="masthead__actions">
+          <a class="btn btn--gold btn--star" href="chat.html?portal=parent">
+            <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+            بوابة ولي الأمر
+          </a>
+          <a class="btn btn--outline" href="chat.html?portal=student">
+            <svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg>
+            بوابة الطالب
+          </a>
+          <a class="btn btn--outline" href="admin.html">
+            <svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg>
+            قسم الإدارة
+          </a>
+        </div>
+
+        <p class="masthead__micro">
+          <svg class="icon" aria-hidden="true"><use href="#i-cloud"></use></svg>
+          تواصل موثّق ومحفوظ، وإشعارات فورية عند رد الإدارة
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="portals" aria-labelledby="portalsTitle">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <div>
+            <span class="section__kicker">
+              <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+              البوابات والصلاحيات
+            </span>
+            <h2 id="portalsTitle">اختر بوابتك للدخول</h2>
+            <p class="section__desc">كل بوابة لها صلاحياتها داخل النظام، والطلب الواحد يجمع الرسائل والردود في مكان واحد.</p>
+          </div>
+          <span class="badge" id="commModeBadge">جارٍ فحص الاتصال…</span>
+        </div>
+
+        <div class="portal-grid" data-reveal-group>
+          <article class="portal-card">
+            <img class="portal-card__watermark" src="assets/logos/ministry-mark.png" alt="" aria-hidden="true">
+            <div class="portal-card__inner">
+              <span class="portal-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span>
+              <h3>بوابة ولي الأمر</h3>
+              <p>إرسال الاستفسارات، ومتابعة طلبات الأبناء، وتلقّي إشعارات الإدارة لحظة صدورها.</p>
+              <ul>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> استفسار أكاديمي</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> الغياب والاستئذان</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> متابعة الأبناء</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> تحديد الصف والشعبة (اختياري)</li>
+              </ul>
+              <a class="btn btn--gold" href="chat.html?portal=parent">
+                <svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>
+                دخول البوابة
+              </a>
+            </div>
+          </article>
+
+          <article class="portal-card">
+            <img class="portal-card__watermark" src="assets/logos/farooq-logo.png" alt="" aria-hidden="true">
+            <div class="portal-card__inner">
+              <span class="portal-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg></span>
+              <h3>بوابة الطالب</h3>
+              <p>لطلبة الصفوف ١٠ إلى ١٢: اختر صفك ثم شعبةك ثم اسمك، واطرح استفسارك — يسجّل الروبوت طلبًا باسمك وبرقم مرجعي ويحوّله للقسم المختص.</p>
+              <ul>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> تسلسل الصف ← الشعبة ← الاسم</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> استفسار دراسي أو مشكلة تقنية</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> الغياب والاستئذان والجدول</li>
+              </ul>
+              <a class="btn btn--gold" href="chat.html?portal=student">
+                <svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>
+                دخول البوابة
+              </a>
+            </div>
+          </article>
+
+          <article class="portal-card portal-card--admin">
+            <img class="portal-card__watermark" src="assets/logos/oman-vision-2040.png" alt="" aria-hidden="true">
+            <div class="portal-card__inner">
+              <span class="portal-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></span>
+              <h3>بوابة الإدارة</h3>
+              <p>استقبال الطلبات المفروزة، والرد على المحادثات، وتحديث حالة الطلب حتى الإغلاق.</p>
+              <ul>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> فرز حسب القسم</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> رد لحظي</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> حالات الطلب</li>
+              </ul>
+              <a class="btn btn--gold" href="admin.html">
+                <svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg>
+                دخول بالإيميل وكلمة السر
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper" id="how" aria-labelledby="howTitle">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <div>
+            <span class="section__kicker">
+              <svg class="icon" aria-hidden="true"><use href="#i-sparkle"></use></svg>
+              تدفق النظام
+            </span>
+            <h2 id="howTitle">كيف يعمل نظام الطلبات الآلي؟</h2>
+            <p class="section__desc">أربع خطوات فقط من أول رسالة حتى إغلاق الطلب.</p>
+          </div>
+        </div>
+
+        <div class="how-grid" data-reveal-group>
+          <article class="how-step">
+            <span class="how-step__num">١</span>
+            <h3>الاستقبال الأول</h3>
+            <p>يرسل ولي الأمر أو الطالب أول رسالة، فيرد الروبوت آليًا بالترحيب وتسجيل طلب تواصل وعرض <strong>أزرار الخدمة الخاصة ببوابته</strong>: خمسة طلبات لأولياء الأمور وستة للطلبة.</p>
+          </article>
+          <article class="how-step">
+            <span class="how-step__num">٢</span>
+            <h3>تحديد القسم</h3>
+            <p>بالضغط على زر القسم (أو كتابة رقمه) ينتقل الحديث مباشرة إلى القسم المختص ويُولَّد رقم مرجعي للطلب بحالة <strong>مفتوحة</strong>.</p>
+          </article>
+          <article class="how-step">
+            <span class="how-step__num">٣</span>
+            <h3>الإرسال والإشعار</h3>
+            <p>عند كتابة الاستفسار والضغط على «إرسال» يظهر إشعار داخلي برقم الطلب، ويصل إشعار فوري عند كل رد من الإدارة.</p>
+          </article>
+          <article class="how-step">
+            <span class="how-step__num">٤</span>
+            <h3>الرد والإغلاق</h3>
+            <p>ترد الإدارة فتتحوّل حالة الطلب إلى <strong>قيد المعالجة</strong>، ثم إلى <strong>مغلق</strong> بعد حل الاستفسار.</p>
+          </article>
+        </div>
+
+        <div class="chips" data-reveal-group style="margin-top:22px">
+          <span class="chip">📚 استفسار أكاديمي</span>
+          <span class="chip">🕐 الغياب والاستئذان</span>
+          <span class="chip">📊 تقرير مستوى أو سلوك</span>
+          <span class="chip">🏛️ استفسارات إدارية عامة</span>
+          <span class="chip">⚙️ مشكلة تقنية في البوابة</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="statsTitle">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <div>
+            <span class="section__kicker">
+              <svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg>
+              حالة التواصل الآن
+            </span>
+            <h2 id="statsTitle">مؤشرات الطلبات</h2>
+            <p class="section__desc">أرقام محدَّثة لحظيًا من قاعدة الطلبات.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid" data-reveal-group>
+          <div class="stat-card">
+            <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg></span>
+            <span class="stat-card__value" id="statTotal">—</span>
+            <span class="stat-card__label">إجمالي الطلبات</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox"></use></svg></span>
+            <span class="stat-card__value" id="statOpen">—</span>
+            <span class="stat-card__label">مفتوحة — Open</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg></span>
+            <span class="stat-card__value" id="statProgress">—</span>
+            <span class="stat-card__label">قيد المعالجة</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>
+            <span class="stat-card__value" id="statClosed">—</span>
+            <span class="stat-card__label">مغلقة — Closed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper" id="track" aria-labelledby="trackTitle">
+      <div class="container">
+        <div class="gate-wrap" data-reveal-group>
+          <div class="gate-card">
+            <span class="section__kicker">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              متابعة طلب قائم
+            </span>
+            <h2 id="trackTitle">أدخل رقم الطلب</h2>
+            <p>احتفظ برقم الطلب الذي يظهر لك بعد الإرسال (مثال: <strong>#TK-1045</strong>)، مع رقم جوالك المسجَّل — الاثنان معًا يفتحان محادثتك دون أن يرى أحد بياناتك.</p>
+            <form id="trackForm">
+              <div class="field">
+                <label for="trackRef">رقم الطلب</label>
+                <input id="trackRef" name="ref" type="text" placeholder="TK-1045" autocomplete="off" required>
+              </div>
+              <div class="field">
+                <label for="trackContact">رقم الجوال المسجَّل عند فتح الطلب</label>
+                <input id="trackContact" name="contact" type="tel" placeholder="+968 9XXXXXXX" autocomplete="tel" required>
+              </div>
+              <div class="login-error" id="trackError" role="alert">لم يتم العثور على طلب مطابق لهذا الرقم وبيانات التواصل.</div>
+              <button class="btn btn--green" type="submit" style="margin-top:16px">
+                <svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>
+                فتح المحادثة
+              </button>
+            </form>
+          </div>
+
+          <aside class="side-card">
+            <h3>
+              <svg class="icon" aria-hidden="true"><use href="#i-bell"></use></svg>
+              لماذا نظام الطلبات؟
+            </h3>
+            <p style="color:var(--muted);font-size:.84rem;line-height:2">
+              كل استفسار يصبح طلبًا له رقم مرجعي وحالة واضحة، فلا يضيع بين الرسائل والطلبات.
+              الإدارة ترى الطلبات مفروزة حسب القسم، وولي الأمر أو الطالب يتلقى إشعارًا فور الرد.
+            </p>
+            <div class="kv"><span>حالة مفتوحة</span><strong>زرقاء — بانتظار التوجيه</strong></div>
+            <div class="kv"><span>قيد المعالجة</span><strong>برتقالية — بدأ الرد</strong></div>
+            <div class="kv"><span>مغلقة</span><strong>خضراء — تم الحل</strong></div>
+            <a class="btn btn--outline btn--sm" href="chat.html" style="margin-top:14px">
+              فتح محادثة جديدة
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid" data-reveal-group>
+        <div class="footer__col">
+          <div class="footer__brand">
+            <img src="assets/logos/farooq-logo.png" alt="شعار مدرسة الفاروق" width="52" height="52">
+            <div>
+              <strong>مدرسة الفاروق</strong>
+              <small>منصة التواصل الرقمي</small>
+            </div>
+          </div>
+          <p class="footer__about">
+            منصة التواصل الرقمي بين المدرسة وأولياء الأمور والطلبة — طلبات آلية، وإشعارات لحظية، ولوحة إدارة موحّدة.
+          </p>
+          <p class="footer__note">سلطنة عُمان — محافظة شمال الباطنة — ولاية الخابورة</p>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__heading">روابط سريعة</h4>
+          <div class="footer__links">
+            <a href="chat.html?portal=parent">بوابة ولي الأمر</a>
+            <a href="chat.html?portal=student">بوابة الطالب</a>
+            <a href="admin.html">قسم الإدارة</a>
+            <a href="https://alfarooq-library.vercel.app/" target="_blank" rel="noopener">المكتبة الرقمية</a>
+            <a href="https://alfarooqom.com/" target="_blank" rel="noopener">الموقع الرسمي</a>
+          </div>
+        </div>
+
+        <div class="footer__col footer__col--developer">
+          <h4 class="footer__heading">تطوير الموقع</h4>
+          <div class="developer-card">
+            <span class="developer-card__label">
+              <svg class="icon" aria-hidden="true"><use href="#i-sparkle"></use></svg>
+              تصميم وتطوير
+            </span>
+            <p class="developer-card__name">علي محمد آل رحمة</p>
+            <p class="developer-card__en">Ali Mohammed Al Rahma</p>
+            <p class="developer-card__role">تطوير الواجهات وتجربة المستخدم والربط السحابي</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> مدرسة الفاروق — جميع الحقوق محفوظة.</span>
+        <span class="mode-pill" data-mode-pill>نسخة تجريبية</span>
+        <span>جميع الشعارات الرسمية معتمدة من الجهات المختصة.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/icons.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/notify.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/pwa.js" defer></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+  <script src="js/home.js" defer></script>
+</body>
+</html>
